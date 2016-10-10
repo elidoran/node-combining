@@ -3,7 +3,14 @@
   "version": "0.1.0",
   "description": "Combine streams in a pipeline",
   "main": "lib",
-  "keywords": [],
+  "keywords": [
+    "combine",
+    "combiner",
+    "stream",
+    "readable",
+    "writable",
+    "transform"
+  ],
   "author": "Eli Doran <eli+npm@elidoran.com>",
   "license": "MIT",
   "scripts": {
