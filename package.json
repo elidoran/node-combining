@@ -1,0 +1,31 @@
+{
+  "name": "combining",
+  "version": "0.1.0",
+  "description": "Combine streams in a pipeline",
+  "main": "lib",
+  "keywords": [],
+  "author": "Eli Doran <eli+npm@elidoran.com>",
+  "license": "MIT",
+  "scripts": {
+    "compile": "coffee --bare --compile lib",
+    "clean": "rm -rf lib/*.js",
+    "prepublish": "npm run compile",
+    "postpublish": "npm run clean",
+    "test": "mocha --compilers coffee:coffee-script/register --reporter spec --bail --check-leaks test/lib"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/elidoran/node-combining.git"
+  },
+  "bugs": "http://github.com/elidoran/node-combining/issues",
+  "devDependencies": {
+    "coffee-script": "^1.11.1",
+    "each-part": "^0.9.0",
+    "mocha": "^2.5.3",
+    "strung": "^1.0.5"
+  },
+  "dependencies": {},
+  "engines": {
+    "node": ">=0.12"
+  }
+}

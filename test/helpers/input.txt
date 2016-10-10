@@ -1,0 +1,3 @@
+this is some sample input text
+line two
+line 3
