@@ -31,7 +31,9 @@
     "mocha": "^2.5.3",
     "strung": "^1.0.5"
   },
-  "dependencies": {},
+  "dependencies": {
+    "@flatten/array": "^1.1.1"
+  },
   "engines": {
     "node": ">=0.12"
   }
