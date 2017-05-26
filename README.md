@@ -17,7 +17,7 @@ Behaviors:
 ## Install
 
 ```sh
-npm install combining --save
+npm install --save combining
 ```
 
 ## Usage
@@ -26,33 +26,32 @@ npm install combining --save
 // get the module
 var buildCombine = require('combining')
 
-  // build the combine function for use
-  , combine = buildCombine() // no options provided
+// build the combine function for use
+var combine = buildCombine() // no options provided
 
-  // some input stream where you'd have data coming from
-  , input = getSomeInputStream()
+// some input stream where you'd have data coming from
+var input = getSomeInputStream()
 
-  // some output stream where you'd like to send results
-  , output = getSomeOutputStream()
+// some output stream where you'd like to send results
+var output = getSomeOutputStream()
 
-  // create some sample streams to combine
-  , stream1 = someStream()
-  , stream2 = anotherStream()
-  , stream3 = soManyStreams()
+// create some sample streams to combine
+var stream1 = someStream()
+var stream2 = anotherStream()
+var stream3 = soManyStreams()
 
-  // combine the three streams together
-  , combo = combine stream1, stream2, stream3
-  ;
+// combine the three streams together
+var combo = combine(stream1, stream2, stream3)
 
 // now use the combined streams as if they were one stream
-input.pipe(combo).pipe(output);
+input.pipe(combo).pipe(output)
 
 // Note:
-//  Sure, right here we could have pipe'd each one to the next ourselves.
-//  But, I've found I'm not always the one controlling all parts involved.
-//  This is just to show how things work together. In development, I find
-//  it's helpful to create a single stream combined from other streams to
-//  supply to some library or function to use.
+// We could have pipe'd each one to the next ourselves.
+// But, I've found I'm rarely the one controlling all parts involved.
+// This shows how things work together. In development, I find it's
+// helpful to create a single stream combined from other streams to
+// supply to some library or function to use.
 //
 // Also, I'm aware of the module `stream-combiner`. I wasn't able to add event
 // listeners to it and have them added on the internal streams I knew to be
@@ -60,4 +59,4 @@ input.pipe(combo).pipe(output);
 ```
 
 
-## MIT License
+# [MIT License](LICENSE)
