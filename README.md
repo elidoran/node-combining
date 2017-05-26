@@ -2,6 +2,7 @@
 [![Build Status](https://travis-ci.org/elidoran/node-combining.svg?branch=master)](https://travis-ci.org/elidoran/node-combining)
 [![Dependency Status](https://gemnasium.com/elidoran/node-combining.png)](https://gemnasium.com/elidoran/node-combining)
 [![npm version](https://badge.fury.io/js/combining.svg)](http://badge.fury.io/js/combining)
+[![Coverage Status](https://coveralls.io/repos/github/elidoran/node-combining/badge.svg?branch=master)](https://coveralls.io/github/elidoran/node-combining?branch=master)
 
 Combine streams in a pipeline.
 
@@ -43,8 +44,30 @@ var stream3 = soManyStreams()
 // combine the three streams together
 var combo = combine(stream1, stream2, stream3)
 
+// Or,
+// provide an array of streams:
+var combo = combine([stream1, stream2, stream3])
+
+// Or,
+// provide streams and arrays of streams
+// because it'll be flattened into a single array.
+var combo = combine([
+  stream1,
+  [stream2, stream3],
+  [stream4, [stream5, stream6], stream7]
+])
+
 // now use the combined streams as if they were one stream
 input.pipe(combo).pipe(output)
+
+// adds end listener to the first stream:
+combo.on('end', function() {})
+
+// adds finish listener to the last stream:
+combo.on('finish', function() {})
+
+// adds custom listeners to all streams in the `combo`:
+combo.on('some event', function() {})
 
 // Note:
 // We could have pipe'd each one to the next ourselves.
