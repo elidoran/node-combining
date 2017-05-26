@@ -1,7 +1,7 @@
 fs = require 'fs'
 corepath = require 'path'
 assert = require 'assert'
-{Transform,PassThrough} = require 'stream'
+{Transform, PassThrough} = require 'stream'
 
 strung = require 'strung'
 buildEach = require 'each-part'
@@ -21,6 +21,29 @@ echoer = ->
       next undefined, string
 
 describe 'test combining', ->
+
+  it 'should provide a pass through when no streams are provided', (done) ->
+
+    combine = buildCombine()
+    stream  = combine()
+    assert stream
+
+    target  = strung()
+    stream.pipe(target)
+    string = 'testing'
+    target.on 'finish', ->
+      assert.equal target.string, string
+      done()
+    stream.end string
+
+
+  it 'should return a stream when it is the only one provided', ->
+
+    combine = buildCombine()
+    stream  = strung()
+    result = combine stream
+    assert.equal result, stream
+
 
   describe 'with: file -> transform -> strung', ->
 
