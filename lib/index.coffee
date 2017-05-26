@@ -1,19 +1,25 @@
+flatten = require '@flatten/array'
 
 module.exports = (builderOptions) ->
 
   # return a function which builds the combined streams
-  (streams...) ->
+  ->
+    # optimization friendly way to gather arguments into real array.
+    streams = new Array arguments.length
+    streams[i] = arguments[i] for i in [0 ... arguments.length]
 
-    # handle the streams arg, it may be an array in the array or be empty
+    # ensure we put all the streams in one flat array:
+    flatten streams
+
+    # empty = PassThrough, single gets returned
     switch streams.length
-      when 1
-        if Array.isArray streams[0] then streams = streams[0]
-        else return streams[0]
+      when 1 then return streams[0]
       when 0 then return new require('stream').PassThrough()
 
-    # remember first/last cuz their the head+tail of the pipeline
+    # remember first/last cuz they're the head+tail of the pipeline
     first = streams[0]
     last  = streams[streams.length - 1]
+
     # i'm going to use the first stream to represent the pipeline and alter
     # some of its functions.
     combined = first
@@ -28,7 +34,7 @@ module.exports = (builderOptions) ->
     # create pipeline
     # start from the front and pipe each to the next one
     # until we reach the last one which doesn't pipe to anyone
-    for stream,index in streams when stream isnt last
+    for stream, index in streams when stream isnt last
 
       # use index+1 to get the next one
       stream.pipe streams[index + 1]
@@ -44,7 +50,7 @@ module.exports = (builderOptions) ->
     #    to have `last` pipe to it. so, let's override its pipe() function
     combined.pipe = (target) -> last.pipe target
 
-    # 3. unpipe() should undo what's done in #1.
+    # 3. unpipe() should undo what's done in #2.
     combined.unpipe = (target) -> last.unpipe target
 
     # 4. when event listeners are added to `combined` then we may need to add them
@@ -86,6 +92,7 @@ module.exports = (builderOptions) ->
     # 6. there are a few other things we may want to control, but, if we hold
     #    the assumption they're only wanting to pipe() to this pipeline and
     #    then pipe() out from it... and add event listeners, then we're good.
+    #    also, they can access the individual streams in `combined.substreams`.
 
     # what am i returning...it's actually `first`
     return combined
